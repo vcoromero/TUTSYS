@@ -6,13 +6,6 @@ if(isset($_GET['id']))
 {
     $del=$obj->deleteTutorado($_GET['id']);
 }
-
-
-if(isset($_POST['btnNuevoTutorado']))
-{
-    $insert=$obj->insertTutorado($_POST['Samantha'], $_POST['Gúzman'], $_POST['Martinez'], $_POST['samyguzman@gmail.com'], $_POST['9931231212'],
-     $_POST['Sistemas Computacionales'], $_POST['6to'], $_POST['14300946'], $_POST['0946']);
-}
 ?>
 
 <div>
@@ -57,5 +50,5 @@ if(isset($_POST['btnNuevoTutorado']))
 
             </tbody>
         </table>
-        <input type="submit" class="botonNuevo" name="btnNuevoTutorado" value="Nuevo"></input>
+        <a  class="botonNuevo" href="?sec=nuevoUsuario">Nuevo</a>
     </div>

@@ -24,6 +24,7 @@
     public function insertTutorado($nombre, $appaterno, $apmaterno, $correo, $telefono, $carrera, $semestre, $matriculaUsuario, $contrasenaUsuario)
     {
         $cn= new conexionDB();
+        //Inserto en mi tabla persona, ya que es la tabla generica
         $qr=$cn->prepare("insert into persona(nombre, appaterno, apmaterno, correo, telefono, fechaAlta, estadoPersona) 
         values(:nombre,:appaterno, :apmaterno, :correo, :telefono, now(), 1)");
         $qr->bindParam(":nombre",$nombre);
@@ -32,16 +33,19 @@
         $qr->bindParam(":correo",$correo);
         $qr->bindParam(":telefono",$telefono);
         $qr->execute();
+        //Si se hizo bien esta inserción, voy a insertar en la tabla de tutorado porque es el de tipo de persona que inserte
         if($qr)
         {
-            $last_id = $cn->insert_id;
+            $last_id = $cn->lastInsertId();//Por lo que investigue, así obtengo el ultimo id de lo que se inserto en la tabla persona
+            //ahora hago la inserción en la tabla de tutorado
             $qr=$cn->prepare("insert into tutorado(fidPersona, fidTutor, carrera, semestre) value(:fidPersona, 4, :carrera, :semestre)");
             $qr->bindParam(":fidPersona",$last_id);
             $qr->bindParam(":carrera",$carrera);
             $qr->bindParam(":semestre",$semestre);
+            //y si todo sale bien, se hace la siguiente inserción que sería darle una matricula y contraseña al nuevo tutorado
             if($qr)
             {
-                $last_id = $cn->insert_id;
+                 //vuelvo a tomar el ultimo id (pero siento que este valor cambia con la ultima inserción)
                 $qr=$cn->prepare("insert into usuario(matriculaUsuario, contrasenaUsuario, fidPersona, fidTipoUsuario, estadoUsuario) 
                 value(:matriculaUsuario, :contrasenaUsuario, :fidPersona, 5, 1)");
                 $qr->bindParam(":matriculaUsuario",$matriculaUsuario);
