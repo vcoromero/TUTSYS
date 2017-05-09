@@ -2,24 +2,34 @@
 require('models/mTutorado.php');
 $obj=  new mTutorado();
 $data=$obj->getTutorado(); 
+if(isset($_GET['id']))
+{
+    $del=$obj->deleteTutorado($_GET['id']);
+}
 
+
+if(isset($_POST['btnNuevoTutorado']))
+{
+    $insert=$obj->insertTutorado($_POST['Samantha'], $_POST['Gúzman'], $_POST['Martinez'], $_POST['samyguzman@gmail.com'], $_POST['9931231212'],
+     $_POST['Sistemas Computacionales'], $_POST['6to'], $_POST['14300946'], $_POST['0946']);
+}
 ?>
 
 <div>
+    
+    <?php if(isset($_GET['msg']))
+    {
+        echo '<p style="padding:10px; background:green;font-size:14px;">'.$_GET['msg'].'</p>';
+    }
+    ?>
     <table>
         <thead>
             <tr>
+
                 <th>MATRICULA</th>
                 <th>NOMBRE</th>
-                <th>APELLIDO PATERNO</th>
-                <th>APELLIDO MATERNO</th>
-                <th>CORREO</th>
-                <th>TELÉFONO</th>
                 <th>FECHA ALTA</th>
-                <th>FECHA BAJA</th>
-                <th>CARRERA</th>
-                <th>SEMESTRE</th>
-                <th>ESTADO COORDINADOR</th>
+                <th>ESTADO TUTOR</th>
                 <th>ACCIONES</th>
             </tr>
         </thead>
@@ -29,20 +39,13 @@ $data=$obj->getTutorado();
             <?php foreach($data as $row): ?>
                 
                 <tr>
-                    
+
                     <td><?php echo($row['matriculaUsuario']); ?></td>
-                    <td><?php echo($row['nombre']); ?></td>
-                    <td><?php echo($row['appaterno']); ?></td>
-                    <td><?php echo($row['apmaterno']); ?></td>
-                    <td><?php echo($row['correo']); ?></td>
-                    <td><?php echo($row['telefono']); ?></td>
+                    <td><?php echo($row['nombre'])." ".($row['appaterno'])." ".($row['apmaterno']); ?></td>
                     <td><?php echo($row['fechaAlta']); ?></td>
-                    <td><?php echo($row['fechaBaja']); ?></td>
-                    <td><?php echo($row['carrera']); ?></td>
-                    <td><?php echo($row['semestre']); ?></td>
                     <td><?php echo($row['estadoPersona']); ?></td>
                     <td>
-                        <button type="button" class="boton">Eliminar</button>
+                        <a  type="button" class="boton" href="?sec=tutorado&id=<?php echo $row['idPersona']; ?>">Eliminar</a>
                         <button type="button" class="boton">Editar</button>
                     </td>
                 </tr>
@@ -54,5 +57,5 @@ $data=$obj->getTutorado();
 
             </tbody>
         </table>
-        <button type="button" class="botonNuevo"> Nuevo </button>
+        <input type="submit" class="botonNuevo" name="btnNuevoTutorado" value="Nuevo"></input>
     </div>
