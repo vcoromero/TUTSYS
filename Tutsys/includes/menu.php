@@ -1,7 +1,7 @@
 <?php
 require('models/mMenus.php');
 $obj= new Menus();
-$data=$obj->getMenus($_SESSION['IDUsuario']);
+$data=$obj->getMenus($_SESSION['matriculaUsuario']);
 ?>
 
 

@@ -1,4 +1,4 @@
-<?php include('auth.php');?>
+<?php include('config/auth.php');?>
 <!DOCTYPE html>
 <html lang="es-MX">
 <?php include('includes/head.php'); ?>
@@ -16,11 +16,11 @@
                 <?php 
 
                 if(isset($_GET['sec'])){
-                    $seccion=$_GET['sec'];
+                    $view=$_GET['sec'];
                 }else{
-                    $seccion='home';
+                    $view='principal';
                 }
-                include('sections/'.$seccion.'.php');
+                include('views/'.$view.'.php');
                 ?>
             </div>
         </div>

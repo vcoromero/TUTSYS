@@ -18,7 +18,7 @@ class mAcceso{
                 $_SESSION['matriculaUsuario'] = $row['matriculaUsuario'];	
                 $_SESSION['nombreUsuario'] = utf8_encode($row['nombre']);	
                 
-                header("location: inicio.php");             
+                header("location: home.php");             
             }
             return true;
         }
