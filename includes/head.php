@@ -1,7 +1,7 @@
 <head>
-	<meta charset="utf-8">
-	<!--<link rel="stylesheet" type="text/css" href="assets/css/csstutsys.css">-->
-	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
-	<link rel="stylesheet" href="assets/css/app.css">
-	<title>TUTSYS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TUTSYS</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
 </head>

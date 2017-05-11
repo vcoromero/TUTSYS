@@ -1,4 +1,4 @@
- <?php
+<?php
  
  if(isset($_POST['matricula']) && isset($_POST['contrasena'])){
 
@@ -8,32 +8,40 @@
 
  }
 ?>
-<!DOCTYPE html>
-<html lang="es">
-	<?php include("includes/head.php") ?>
-<body>
-	<div id="agrupar">
-        <header id="cabecera">
-            <h1>TUTSYS</h1>
-        </header>
-        <!--Contenedor central-->
-        <div id="centrarContenido">
-            <!--Aquí irá el logotipo-->
-            <div id="divLogo">
-                <img src="assets/img/tutsys.png"   class="imgCabecera">	
-            </div>
-            <!--Aquí irá el login-->
-            <div id="divLogin">
-                <form id="formulario-login" method="POST">
-                    <div class="tituloFormulario">
-                        <h3>Ingresa</h3>
+
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <?php include("includes/head.php") ?>
+
+    <body class="jumbotron">
+        <div class="container">
+            <div class="row">
+
+
+                <div style="margin-top:7%" class="col-md-4 col-md-offset-4">
+                    <div class="panel panel-success">
+                        <div class="panel-body">
+                        <img style="max-width:230px;margin:auto;" src="assets/img/tutsys.png" class="img-responsive">
+                            <form id="formulario-login" method="POST">
+                                <div class="form-group">
+                                    <label for="">Matricula</label>
+                                    <input type="text" class="form-control" name="matricula" placeholder="Ingrega tu matricula">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Contraseña</label>
+                                    <input type="password" class="form-control" name="contrasena" placeholder="Ingresa tu contraseña">
+                                </div>
+
+                                <button type="submit" name="btnenviar" class="btn btn-lg btn-block btn-success">Enviar</button>
+                            </form>
+                            <br>
+                        </div>
                     </div>
-                    <input type="text" name="matricula" placeholder="Matricula" class="campo">
-                    <input type="password" name="contrasena" placeholder="Contraseña" class="campo">
-                    <button class="botonIndex" name="btnenviar">INGRESAR</button>
-                </form>
+
+                </div>
             </div>
         </div>
-	</div>
-</body>
-</html>
+    </body>
+
+    </html>
