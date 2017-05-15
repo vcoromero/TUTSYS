@@ -8,17 +8,12 @@
 
  }
 ?>
-
-
-    <!DOCTYPE html>
-    <html lang="es">
+<!DOCTYPE html>
+<html lang="es">
     <?php include("includes/head.php") ?>
-
     <body class="jumbotron">
         <div class="container">
             <div class="row">
-
-
                 <div style="margin-top:7%" class="col-md-4 col-md-offset-4">
                     <div class="panel panel-success">
                         <div class="panel-body">
@@ -42,6 +37,6 @@
                 </div>
             </div>
         </div>
+        <?php include("includes/footer.php") ?>
     </body>
-
     </html>

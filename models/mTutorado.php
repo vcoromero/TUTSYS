@@ -3,79 +3,93 @@
 
  class mTutorado
  {
-    public function getTutorado()
+    public function getTutorado($id)
     {
         $cn=new conexionDB();
-        $query=$cn-> prepare("select u.matriculaUsuario, p.idPersona, p.nombre, p.appaterno, p.apmaterno, p.correo, p.telefono, p.fechaAlta, 
-                p.fechaBaja, tdo.carrera, tdo.semestre, p.estadoPersona from persona p inner join tutorado tdo on p.idPersona=tdo.fidPersona 
-                inner join usuario u on u.fidPersona=p.idPersona where p.estadoPersona=1");
-        $query->execute();
+        $qr=$cn-> prepare("SELECT * FROM persona p INNER JOIN tutorado cI ON p.idPersona=cI.fidPersona INNER JOIN usuario u ON u.fidPersona=p.idPersona 
+                                WHERE p.idPersona=:id AND p.estadoPersona=1 AND u.estadoUsuario=1");
+        $qr->bindParam(":id", $id);
+        $qr->execute();
 
-        if ($query)
+        if ($qr)
         {
-            return $query->fetchAll();
+            return $qr->fetch();
         }
         else
         {
             return 0;
         }
     }
-
-    public function insertTutorado($nombre, $appaterno, $apmaterno, $correo, $telefono, $carrera, $semestre, $matriculaUsuario, $contrasenaUsuario)
+    public function getTutoradosActivos()
     {
-        $cn= new conexionDB();
-        //Inserto en mi tabla persona, ya que es la tabla generica
-        $qr=$cn->prepare("insert into persona(nombre, appaterno, apmaterno, correo, telefono, fechaAlta, estadoPersona) 
-        values(:nombre,:appaterno, :apmaterno, :correo, :telefono, now(), 1)");
-        $qr->bindParam(":nombre",$nombre);
-        $qr->bindParam(":appaterno",$appaterno);
-        $qr->bindParam(":apmaterno",$apmaterno);
-        $qr->bindParam(":correo",$correo);
-        $qr->bindParam(":telefono",$telefono);
+        $cn=new conexionDB();
+        $qr=$cn-> prepare("SELECT * FROM persona p INNER JOIN tutorado cI ON p.idPersona=cI.fidPersona INNER JOIN usuario u ON u.fidPersona=p.idPersona 
+                            WHERE p.estadoPersona=1 AND u.estadoUsuario=1");
         $qr->execute();
-        //Si se hizo bien esta inserción, voy a insertar en la tabla de tutorado porque es el de tipo de persona que inserte
-        if($qr)
+
+        if ($qr)
         {
-            $last_id = $cn->lastInsertId();//Por lo que investigue, así obtengo el ultimo id de lo que se inserto en la tabla persona
-            //ahora hago la inserción en la tabla de tutorado
-            $qr=$cn->prepare("insert into tutorado(fidPersona, fidTutor, carrera, semestre) value(:fidPersona, 4, :carrera, :semestre)");
-            $qr->bindParam(":fidPersona",$last_id);
-            $qr->bindParam(":carrera",$carrera);
-            $qr->bindParam(":semestre",$semestre);
-            //y si todo sale bien, se hace la siguiente inserción que sería darle una matricula y contraseña al nuevo tutorado
-            if($qr)
-            {
-                 //vuelvo a tomar el ultimo id (pero siento que este valor cambia con la ultima inserción)
-                $qr=$cn->prepare("insert into usuario(matriculaUsuario, contrasenaUsuario, fidPersona, fidTipoUsuario, estadoUsuario) 
-                value(:matriculaUsuario, :contrasenaUsuario, :fidPersona, 5, 1)");
-                $qr->bindParam(":matriculaUsuario",$matriculaUsuario);
-                $qr->bindParam(":contrasenaUsuario",$contrasenaUsuario);
-                $qr->bindParam(":fidPersona",$last_id);
-                
-                header("location: home.php?sec=tutorado");
-                return true;
-            }
+            return $qr->fetchAll();
+        }
+        else
+        {
+            return 0;
         }
     }
-    public function deleteTutorado($idTutorado)
+    public function getTutoradosInactivos()
     {
-        
         $cn=new conexionDB();
-        $query=$cn->prepare("update persona set estadoPersona=0, fechaBaja=now() where idPersona=:id");
-        $query->bindParam(":id",$idTutorado);
-        $query->execute();
+        $qr=$cn-> prepare("SELECT * FROM persona p INNER JOIN tutorado cI ON p.idPersona=cI.fidPersona INNER JOIN usuario u ON u.fidPersona=p.idPersona 
+                            WHERE p.estadoPersona=0 AND u.estadoUsuario=0");
+        $qr->execute();
 
-
-        if($query)
+        if ($qr)
         {
-            $msg="Se ha eliminado correctamente";
-            header("location: home.php?sec=tutorado&msg=".$msg);
-            return true;
-        }  
+            return $qr->fetchAll();
+        }
+        else
+        {
+            return 0;
+        }
     }
-    // public function updateTutorado()
-    // {
-
-    // }
+    public function inhabilitarTutorado($id)
+    {
+        $cn=new conexionDB();
+		$qr=$cn->prepare('UPDATE persona SET estadoPersona=0, fechaBaja=now() WHERE idPersona=:id');
+		$qr->bindParam(':id',$id);
+		$qr->execute();
+		if($qr)
+		{
+			$qr2=$cn->prepare('UPDATE usuario SET estadoUsuario=0 WHERE idUsuario=:id AND fidPersona=:id AND fidTipoUsuario=5');
+			$qr2->bindParam(':id',$id);
+			$qr2->execute();
+			if($qr2)
+			{
+				$msg="<strong>¡Cambio realizado!</strong> Se inhabilito al tutorado";
+                header("location: ?sec=tutorado&msg=".$msg);
+            	return true;
+			}
+		} 
+    }
+	
+	public function habilitarTutorado($id)
+    {
+        $cn=new conexionDB();
+		$qr=$cn->prepare('UPDATE persona SET estadoPersona=1, fechaAlta=now() WHERE idPersona=:id');
+		$qr->bindParam(':id',$id);
+		$qr->execute();
+		if($qr)
+		{
+			$qr2=$cn->prepare('UPDATE usuario SET estadoUsuario=1 WHERE idUsuario=:id AND fidPersona=:id AND fidTipoUsuario=5');
+			$qr2->bindParam(':id',$id);
+			$qr2->execute();
+			if($qr2)
+			{
+				$msg2="<strong>¡Cambio realizado!</strong> Se habilito al tutorado";
+                header("location: ?sec=tutorado&msg2=".$msg2);
+            	return true;
+			}
+		} 
+    }
  }
 ?>

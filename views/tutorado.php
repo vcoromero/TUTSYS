@@ -1,54 +1,81 @@
 <?php 
 require('models/mTutorado.php');
 $obj=  new mTutorado();
-$data=$obj->getTutorado(); 
-if(isset($_GET['id']))
+$data=$obj->getTutoradosActivos(); 
+$data2=$obj->getTutoradosInactivos(); 
+$n=1;
+$i=1;
+if(isset($_GET['idInhabilitar']))
 {
-    $del=$obj->deleteTutorado($_GET['id']);
+    $obj->inhabilitarTutorado($_GET['idInhabilitar']);
+}
+if(isset($_GET['idHabilitar']))
+{
+    $obj->habilitarTutorado($_GET['idHabilitar']);
 }
 ?>
 
-<div>
-    
+<div class="col-md-6 col-md-offset-3">
     <?php if(isset($_GET['msg']))
     {
-        echo '<p style="padding:10px; background:green;font-size:14px;">'.$_GET['msg'].'</p>';
+        echo '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>'.$_GET['msg'].'</div>';
     }
     ?>
-    <table>
+    <legend>Tutorados activos</legend>
+    <div class="table-responsive">
+        <table class="table table-hover table-condensed">
         <thead>
             <tr>
-
-                <th>MATRICULA</th>
+                <th>#</th>
                 <th>NOMBRE</th>
-                <th>FECHA ALTA</th>
-                <th>ESTADO TUTOR</th>
                 <th>ACCIONES</th>
             </tr>
         </thead>
         <tbody>
-
-
-            <?php foreach($data as $row): ?>
-                
+            <?php foreach($data as $row): ?> 
                 <tr>
-
-                    <td><?php echo($row['matriculaUsuario']); ?></td>
-                    <td><?php echo($row['nombre'])." ".($row['appaterno'])." ".($row['apmaterno']); ?></td>
-                    <td><?php echo($row['fechaAlta']); ?></td>
-                    <td><?php echo($row['estadoPersona']); ?></td>
+                    <td><?php echo $n++; ?></td>
+                    <td><a><?php echo $row['nombre']." ".$row['appaterno']." ".$row['apmaterno']; ?></a></td>
                     <td>
-                        <a  type="button" class="boton" href="?sec=tutorado&id=<?php echo $row['idPersona']; ?>">Eliminar</a>
-                        <button type="button" class="boton">Editar</button>
+                        <a type="button" class="btn btn-danger" href='?sec=tutorado&idInhabilitar=<?php echo $row['idPersona'] ?>'>Inhabilitar</a>
+                        <a type="button" class="btn btn-warning" href="?sec=formEditarUsuario&id=<?php echo $row['idPersona'] ?>">Editar</a>
                     </td>
                 </tr>
-                <?php
-
-                endforeach;
-
-                ?>
-
+                <?php endforeach; ?>
             </tbody>
         </table>
-        <a  class="botonNuevo" href="?sec=nuevoUsuario">Nuevo</a>
+        <a type="button" class="btn btn-lg btn-block btn-success" href='?sec=formNuevoUsuario'>Nuevo</a>
     </div>
+
+    <br>
+
+   <?php if(isset($_GET['msg2']))
+    {
+        echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>'.$_GET['msg2'].'</div>';
+    }
+    ?>
+    <legend>Tutorados inactivos</legend>
+    <div class="table-responsive">
+        <table class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>NOMBRE</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($data2 as $row2): ?> 
+                <tr>
+                    <td><?php echo $i++; ?></td>
+                    <td><a><?php echo $row2['nombre']." ".$row2['appaterno']." ".$row2['apmaterno']; ?></a></td>
+                    <td>
+                        <a type="button" class="btn btn-success" href='?sec=tutorado&idHabilitar=<?php echo $row2['idPersona'] ?>'>Habilitar</a>
+                        
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
