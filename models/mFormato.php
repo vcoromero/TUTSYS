@@ -17,7 +17,7 @@ class mFormato
     public function inhabilitarFormato($id)
     {
         $cn = new conexionDB();
-        $qr=$cn->prepare('UPDATE formato set estadoFormato=0 WHERE idFormato=:id');
+        $qr=$cn->prepare('UPDATE formato SET estadoFormato=0 WHERE idFormato=:id');
         $qr->bindParam(":id", $id);
         $qr->execute();
         if($qr)

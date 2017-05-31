@@ -2,8 +2,9 @@
 
 require_once('models/mMisDatos.php');
 
-$obj=new mMisDatos();
-$data=$obj->getDatos($_SESSION['idPersona'],$_SESSION['idTipoUsuario']);
+$obj=new mMisDatos();   
+$row=$obj->getDato($_GET['id']);
+$row2=$obj->getTipoUsuario($_GET['id']);
 
 ?>
 
@@ -15,7 +16,6 @@ $data=$obj->getDatos($_SESSION['idPersona'],$_SESSION['idTipoUsuario']);
                 <h3 class="panel-title">Mis datos</h3>
           </div>
           <div class="panel-body">
-                <?php foreach($data as $row): ?>
                 <label for="">Nombre</label>
                 <p><?php echo $row['nombre']." ".$row['appaterno']." ".$row['apmaterno'];?></p>
                 <label for="">Correo personal</label>
@@ -28,23 +28,23 @@ $data=$obj->getDatos($_SESSION['idPersona'],$_SESSION['idTipoUsuario']);
                 <p><?php echo $row['sexo'];?></p>
                 <label for="">Fecha alta</label>
                 <p><?php echo $row['fechaAlta'];?></p>
-                <?php if ($_SESSION['idTipoUsuario']==1):?>
+                <?php if ($row2['fidTipoUsuario']==1):?>
                 <?php endif;?>
-                <?php if ($_SESSION['idTipoUsuario']==2):?>
+                <?php if ($row2['fidTipoUsuario']==2):?>
                     <label for="">Área</label>
                     <p><?php echo $row['area'];?></p>
                 <?php endif; ?>
-                <?php if ($_SESSION['idTipoUsuario']==3):?>
+                <?php if ($row2['fidTipoUsuario']==3):?>
                     <label for="">Departamento</label>
                     <p><?php echo $row['departamento'];?></p>
                 <?php endif;?>
-                <?php if ($_SESSION['idTipoUsuario']==4):?>
+                <?php if ($row2['fidTipoUsuario']==4):?>
                     <label for="">Carrera</label>
                     <p><?php echo $row['carrera'];?></p>
                     <label for="">Periodo</label>
                     <p><?php echo $row['periodo'];?></p>
                 <?php endif;?>
-                <?php if ($_SESSION['idTipoUsuario']==5):?>
+                <?php if ($row2['fidTipoUsuario']==5):?>
                     <label for="">Carrera</label>
                     <p><?php echo $row['carrera'];?></p>
                     <label for="">Semestre</label>
@@ -52,7 +52,6 @@ $data=$obj->getDatos($_SESSION['idPersona'],$_SESSION['idTipoUsuario']);
                     <label for="">Tutor</label>
                     <p><?php echo $row['fidTutor'];?></p>
                 <?php endif;?>
-                <?php endforeach; ?>
           </div>
     </div>
 </div>

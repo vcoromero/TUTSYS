@@ -15,6 +15,11 @@
         <div class="container">
             <div class="row">
                 <div style="margin-top:7%" class="col-md-4 col-md-offset-4">
+                <?php if(isset($_GET['msg']))
+                {
+                    echo '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'.$_GET['msg'].'</div>';
+                }
+                ?>
                     <div class="panel panel-success">
                         <div class="panel-body">
                         <img style="max-width:230px;margin:auto;" src="assets/img/tutsys.png" class="img-responsive">

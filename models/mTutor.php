@@ -24,7 +24,8 @@
     {
         $cn=new conexionDB();
         $qr=$cn-> prepare("SELECT * FROM persona p INNER JOIN tutor cI ON p.idPersona=cI.fidPersona INNER JOIN usuario u ON u.fidPersona=p.idPersona 
-                            WHERE p.estadoPersona=1 AND u.estadoUsuario=1");
+                            WHERE u.idUsuario!=:id AND p.estadoPersona=1 AND u.estadoUsuario=1");
+        $qr->bindParam(':id', $_SESSION['idUsuario']);
         $qr->execute();
 
         if ($qr)

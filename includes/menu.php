@@ -31,7 +31,7 @@ $data=$obj->getMenus($_SESSION['matriculaUsuario']);
                     
                  <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="?sec=misdatos&id=<?php echo $_SESSION['idPersona']?>"> Mis datos</a></li>
+                    <li><a href="?sec=misdatos&id=<?php echo $_SESSION['idTipoUsuario']?>"> Mis datos</a></li>
                     <li><a href="salir.php">Cerrar Sesion</a></li>
                 </ul>
             </li>
